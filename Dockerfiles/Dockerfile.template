@@ -1,0 +1,19 @@
+FROM dsuite/maven:3.6-jdk8
+
+LABEL maintainer="Hexosse <hexosse@gmail.com>" \
+      description="Spigot, craftbukkit image builder." \
+      vendor="docker-suite" \
+      license="MIT"
+
+ENV SPIGOT_VERSION={{SPIGOT_VERSION}}
+ENV USER_NAME=${USER_NAME:-Hexosse}
+ENV USER_EMAIL=${USER_EMAIL:-hexosse@gmail.com}
+
+## Scripts
+COPY spigot-build.sh $MAVEN_HOME_DIR/spigot-build.sh
+
+## Persist data
+VOLUME $MAVEN_HOME_DIR
+
+## Define entrypoint todirectly build spigot
+ENTRYPOINT ["sh", "-c", "$MAVEN_HOME_DIR/spigot-build.sh {{SPIGOT_VERSION}}"]
