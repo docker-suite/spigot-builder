@@ -1,6 +1,6 @@
 DIR:=$(strip $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST)))))
 PROJECT_NAME:=$(strip $(shell basename $(DIR)))
-DOCKER_IMAGE=dsuite/$(PROJECT_NAME)
+DOCKER_IMAGE:=$(if $(DOCKER_IMAGE),$(DOCKER_IMAGE),dsuite/$(PROJECT_NAME))
 
 
 build-all:
@@ -107,6 +107,13 @@ run: run-dir build
 		-e https_proxy=${https_proxy} \
 		-v $$PWD/.tmp/.m2:/var/maven_home/.m2 \
 		-v $$PWD/.tmp/target:/var/maven_home/target \
+		$(DOCKER_IMAGE):$(SPIGOT_VERSION)
+
+install: build
+	@docker run -t --rm \
+		-e http_proxy=${http_proxy} \
+		-e https_proxy=${https_proxy} \
+		${PARAMS} \
 		$(DOCKER_IMAGE):$(SPIGOT_VERSION)
 
 remove:
