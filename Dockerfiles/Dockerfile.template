@@ -11,9 +11,10 @@ ENV USER_EMAIL=${USER_EMAIL:-hexosse@gmail.com}
 
 ## Scripts
 COPY spigot-build.sh $MAVEN_HOME_DIR/spigot-build.sh
+RUN sudo chmod +x $MAVEN_HOME_DIR/spigot-build.sh
 
 ## Persist data
 VOLUME $MAVEN_HOME_DIR
 
 ## Define entrypoint todirectly build spigot
-ENTRYPOINT ["sh", "-c", "$MAVEN_HOME_DIR/spigot-build.sh {{SPIGOT_VERSION}}"]
+ENTRYPOINT ["$MAVEN_HOME_DIR/spigot-build.sh {{SPIGOT_VERSION}}"]
