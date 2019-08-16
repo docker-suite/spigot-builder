@@ -17,6 +17,8 @@ export M2_HOME=$MAVEN_HOME
 [ -d "$MAVEN_BUILD_DIR" ] && rm -rf "$MAVEN_BUILD_DIR"
 # Make sure the build folder is empty
 mkdir -p "$MAVEN_BUILD_DIR"
+# Make sure the target folder exist
+mkdir -p "$MAVEN_TARGET_DIR"
 
 
 # Download BuildTools
