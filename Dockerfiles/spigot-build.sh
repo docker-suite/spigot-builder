@@ -38,10 +38,13 @@ cd "$MAVEN_BUILD_DIR" || exit 1
 java -jar BuildTools.jar --disable-java-check --rev $1
 
 
-echo "Copying artifact to target folder"
+echo
+echo
 # get the project version
 PROJECT_VERSION=$(printf 'VERSION=${project.version}\n0\n' | mvn -f /var/maven_home/build/Bukkit/pom.xml org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate | grep '^VERSION' | sed 's/^VERSION=//g')
 # Copy craftbukkit to target folder
+echo "Copying craftbukkit-$PROJECT_VERSION.jar to $MAVEN_TARGET_DIR/craftbukkit-$1.jar"
 cp "$MAVEN_BUILD_DIR/CraftBukkit/target/craftbukkit-$PROJECT_VERSION.jar" "$MAVEN_TARGET_DIR/craftbukkit-$1.jar"
 # Copy spigot to target folder
+echo "Copying spigot-$PROJECT_VERSION.jar to $MAVEN_TARGET_DIR/spigot-$1.jar"
 cp "$MAVEN_BUILD_DIR/Spigot/Spigot-Server/target/spigot-$PROJECT_VERSION.jar" "$MAVEN_TARGET_DIR/spigot-$1.jar"
