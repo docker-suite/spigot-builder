@@ -17,4 +17,4 @@ RUN sudo chmod +x $MAVEN_HOME_DIR/spigot-build.sh
 VOLUME $MAVEN_HOME_DIR
 
 ## Define entrypoint todirectly build spigot
-ENTRYPOINT ["$MAVEN_HOME_DIR/spigot-build.sh {{SPIGOT_VERSION}}"]
+ENTRYPOINT [ "/bin/bash", "-c", "$MAVEN_HOME_DIR/spigot-build.sh {{SPIGOT_VERSION}}" ]
