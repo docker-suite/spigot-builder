@@ -1,138 +1,103 @@
+## Name of the image
+DOCKER_IMAGE=dsuite/spigot-builder
+
+## Current directory
 DIR:=$(strip $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST)))))
-PROJECT_NAME:=$(strip $(shell basename $(DIR)))
-DOCKER_IMAGE:=$(if $(DOCKER_IMAGE),$(DOCKER_IMAGE),dsuite/$(PROJECT_NAME))
 
+## Define the latest version
+latest = 1.14.4
 
-build-all:
-	SPIGOT_VERSION=1.8    $(MAKE) build
-	SPIGOT_VERSION=1.8.3  $(MAKE) build
-	SPIGOT_VERSION=1.8.7  $(MAKE) build
-	SPIGOT_VERSION=1.8.8  $(MAKE) build
-	SPIGOT_VERSION=1.9    $(MAKE) build
-	SPIGOT_VERSION=1.9.2  $(MAKE) build
-	SPIGOT_VERSION=1.9.4  $(MAKE) build
-	SPIGOT_VERSION=1.10   $(MAKE) build
-	SPIGOT_VERSION=1.10.1 $(MAKE) build
-	SPIGOT_VERSION=1.10.2 $(MAKE) build
-	SPIGOT_VERSION=1.11   $(MAKE) build
-	SPIGOT_VERSION=1.11.1 $(MAKE) build
-	SPIGOT_VERSION=1.11.2 $(MAKE) build
-	SPIGOT_VERSION=1.12   $(MAKE) build
-	SPIGOT_VERSION=1.12.1 $(MAKE) build
-	SPIGOT_VERSION=1.12.2 $(MAKE) build
-	SPIGOT_VERSION=1.13   $(MAKE) build
-	SPIGOT_VERSION=1.13.1 $(MAKE) build
-	SPIGOT_VERSION=1.13.2 $(MAKE) build
-	SPIGOT_VERSION=1.14   $(MAKE) build
-	SPIGOT_VERSION=1.14.1 $(MAKE) build
-	SPIGOT_VERSION=1.14.2 $(MAKE) build
-	SPIGOT_VERSION=1.14.3 $(MAKE) build
-	SPIGOT_VERSION=1.14.4 $(MAKE) build
+## Config
+.DEFAULT_GOAL := help
+.PHONY: *
 
-test-all:
-	SPIGOT_VERSION=1.8    $(MAKE) test
-	SPIGOT_VERSION=1.8.3  $(MAKE) test
-	SPIGOT_VERSION=1.8.7  $(MAKE) test
-	SPIGOT_VERSION=1.8.8  $(MAKE) test
-	SPIGOT_VERSION=1.9    $(MAKE) test
-	SPIGOT_VERSION=1.9.2  $(MAKE) test
-	SPIGOT_VERSION=1.9.4  $(MAKE) test
-	SPIGOT_VERSION=1.10   $(MAKE) test
-	SPIGOT_VERSION=1.10.1 $(MAKE) test
-	SPIGOT_VERSION=1.10.2 $(MAKE) test
-	SPIGOT_VERSION=1.11   $(MAKE) test
-	SPIGOT_VERSION=1.11.1 $(MAKE) test
-	SPIGOT_VERSION=1.11.2 $(MAKE) test
-	SPIGOT_VERSION=1.12   $(MAKE) test
-	SPIGOT_VERSION=1.12.1 $(MAKE) test
-	SPIGOT_VERSION=1.12.2 $(MAKE) test
-	SPIGOT_VERSION=1.13   $(MAKE) test
-	SPIGOT_VERSION=1.13.1 $(MAKE) test
-	SPIGOT_VERSION=1.13.2 $(MAKE) test
-	SPIGOT_VERSION=1.14   $(MAKE) test
-	SPIGOT_VERSION=1.14.1 $(MAKE) test
-	SPIGOT_VERSION=1.14.2 $(MAKE) test
-	SPIGOT_VERSION=1.14.3 $(MAKE) test
-	SPIGOT_VERSION=1.14.4 $(MAKE) test
+help: ## This help!
+	@printf "\033[33mUsage:\033[0m\n  make [target] [arg=\"val\"...]\n\n\033[33mTargets:\033[0m\n"
+	@grep -E '^[-a-zA-Z0-9_\.\/]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[32m%-15s\033[0m %s\n", $$1, $$2}'
 
-push-all:
-	SPIGOT_VERSION=1.8    $(MAKE) push
-	SPIGOT_VERSION=1.8.3  $(MAKE) push
-	SPIGOT_VERSION=1.8.7  $(MAKE) push
-	SPIGOT_VERSION=1.8.8  $(MAKE) push
-	SPIGOT_VERSION=1.9    $(MAKE) push
-	SPIGOT_VERSION=1.9.2  $(MAKE) push
-	SPIGOT_VERSION=1.9.4  $(MAKE) push
-	SPIGOT_VERSION=1.10   $(MAKE) push
-	SPIGOT_VERSION=1.10.1 $(MAKE) push
-	SPIGOT_VERSION=1.10.2 $(MAKE) push
-	SPIGOT_VERSION=1.11   $(MAKE) push
-	SPIGOT_VERSION=1.11.1 $(MAKE) push
-	SPIGOT_VERSION=1.11.2 $(MAKE) push
-	SPIGOT_VERSION=1.12   $(MAKE) push
-	SPIGOT_VERSION=1.12.1 $(MAKE) push
-	SPIGOT_VERSION=1.12.2 $(MAKE) push
-	SPIGOT_VERSION=1.13   $(MAKE) push
-	SPIGOT_VERSION=1.13.1 $(MAKE) push
-	SPIGOT_VERSION=1.13.2 $(MAKE) push
-	SPIGOT_VERSION=1.14   $(MAKE) push
-	SPIGOT_VERSION=1.14.1 $(MAKE) push
-	SPIGOT_VERSION=1.14.2 $(MAKE) push
-	SPIGOT_VERSION=1.14.3 $(MAKE) push
-	SPIGOT_VERSION=1.14.4 $(MAKE) push
+build: ## Build all versions
+	@$(MAKE) build-version v=1.8
+	@$(MAKE) build-version v=1.8.3
+	@$(MAKE) build-version v=1.8.7
+	@$(MAKE) build-version v=1.8.8
+	@$(MAKE) build-version v=1.9
+	@$(MAKE) build-version v=1.9.2
+	@$(MAKE) build-version v=1.9.4
+	@$(MAKE) build-version v=1.1
+	@$(MAKE) build-version v=1.10.1
+	@$(MAKE) build-version v=1.10.2
+	@$(MAKE) build-version v=1.1
+	@$(MAKE) build-version v=1.11.1
+	@$(MAKE) build-version v=1.11.2
+	@$(MAKE) build-version v=1.1
+	@$(MAKE) build-version v=1.12.1
+	@$(MAKE) build-version v=1.12.2
+	@$(MAKE) build-version v=1.1
+	@$(MAKE) build-version v=1.13.1
+	@$(MAKE) build-version v=1.13.2
+	@$(MAKE) build-version v=1.1
+	@$(MAKE) build-version v=1.14.1
+	@$(MAKE) build-version v=1.14.2
+	@$(MAKE) build-version v=1.14.3
+	@$(MAKE) build-version v=1.14.4
 
-build:
-	@docker run --rm \
-		-e http_proxy=${http_proxy} \
-		-e https_proxy=${https_proxy} \
-		-e SPIGOT_VERSION=$(SPIGOT_VERSION) \
-		-v $(DIR)/Dockerfiles:/data \
-		dsuite/alpine-data \
-		sh -c "templater Dockerfile.template > Dockerfile-$(SPIGOT_VERSION)"
-	docker build \
-		--build-arg http_proxy=${http_proxy} \
-		--build-arg https_proxy=${https_proxy} \
-		--file $(DIR)/Dockerfiles/Dockerfile-$(SPIGOT_VERSION) \
-		--tag $(DOCKER_IMAGE):$(SPIGOT_VERSION) \
-		$(DIR)/Dockerfiles
+test: ## Test all versions
+	@$(MAKE) test-version v=1.8
+	@$(MAKE) test-version v=1.8.3
+	@$(MAKE) test-version v=1.8.7
+	@$(MAKE) test-version v=1.8.8
+	@$(MAKE) test-version v=1.9
+	@$(MAKE) test-version v=1.9.2
+	@$(MAKE) test-version v=1.9.4
+	@$(MAKE) test-version v=1.1
+	@$(MAKE) test-version v=1.10.1
+	@$(MAKE) test-version v=1.10.2
+	@$(MAKE) test-version v=1.1
+	@$(MAKE) test-version v=1.11.1
+	@$(MAKE) test-version v=1.11.2
+	@$(MAKE) test-version v=1.1
+	@$(MAKE) test-version v=1.12.1
+	@$(MAKE) test-version v=1.12.2
+	@$(MAKE) test-version v=1.1
+	@$(MAKE) test-version v=1.13.1
+	@$(MAKE) test-version v=1.13.2
+	@$(MAKE) test-version v=1.1
+	@$(MAKE) test-version v=1.14.1
+	@$(MAKE) test-version v=1.14.2
+	@$(MAKE) test-version v=1.14.3
+	@$(MAKE) test-version v=1.14.4
 
-test: build
-	@docker run --rm -t \
-		-e http_proxy=${http_proxy} \
-		-e https_proxy=${https_proxy} \
-		-v $(DIR)/tests:/goss \
-		-v /tmp:/tmp \
-		-v /var/run/docker.sock:/var/run/docker.sock \
-		dsuite/goss:latest \
-		dgoss run -e SPIGOT_VERSION=$(SPIGOT_VERSION) --entrypoint=/goss/entrypoint.sh $(DOCKER_IMAGE):$(SPIGOT_VERSION)
+push: ## Push all versions
+	@$(MAKE) push-version v=1.8
+	@$(MAKE) push-version v=1.8.3
+	@$(MAKE) push-version v=1.8.7
+	@$(MAKE) push-version v=1.8.8
+	@$(MAKE) push-version v=1.9
+	@$(MAKE) push-version v=1.9.2
+	@$(MAKE) push-version v=1.9.4
+	@$(MAKE) push-version v=1.1
+	@$(MAKE) push-version v=1.10.1
+	@$(MAKE) push-version v=1.10.2
+	@$(MAKE) push-version v=1.1
+	@$(MAKE) push-version v=1.11.1
+	@$(MAKE) push-version v=1.11.2
+	@$(MAKE) push-version v=1.1
+	@$(MAKE) push-version v=1.12.1
+	@$(MAKE) push-version v=1.12.2
+	@$(MAKE) push-version v=1.1
+	@$(MAKE) push-version v=1.13.1
+	@$(MAKE) push-version v=1.13.2
+	@$(MAKE) push-version v=1.1
+	@$(MAKE) push-version v=1.14.1
+	@$(MAKE) push-version v=1.14.2
+	@$(MAKE) push-version v=1.14.3
+	@$(MAKE) push-version v=1.14.4
 
-push: build
-	@docker push $(DOCKER_IMAGE):$(SPIGOT_VERSION)
-
-run-dir:
-	mkdir -p $$PWD/.tmp/.m2
-	mkdir -p $$PWD/.tmp/target
-
-run: run-dir build
-	@docker run -it --rm \
-		-e http_proxy=${http_proxy} \
-		-e https_proxy=${https_proxy} \
-		-v $$PWD/.tmp/.m2:/var/maven_home/.m2 \
-		-v $$PWD/.tmp/target:/var/maven_home/target \
-		$(DOCKER_IMAGE):$(SPIGOT_VERSION)
-
-install: build
-	@docker run -t --rm \
-		-e http_proxy=${http_proxy} \
-		-e https_proxy=${https_proxy} \
-		${PARAMS} \
-		$(DOCKER_IMAGE):$(SPIGOT_VERSION)
-
-remove:
+remove: ## Remove all generated images
 	@docker images | grep $(DOCKER_IMAGE) | tr -s ' ' | cut -d ' ' -f 2 | xargs -I {} docker rmi $(DOCKER_IMAGE):{} || true
 	@docker images | grep $(DOCKER_IMAGE) | tr -s ' ' | cut -d ' ' -f 3 | xargs -I {} docker rmi {} || true
 
-readme:
+readme: ## Generate docker hub full description
 	@docker run -t --rm \
 		-e http_proxy=${http_proxy} \
 		-e https_proxy=${https_proxy} \
@@ -141,3 +106,38 @@ readme:
 		-e DOCKER_IMAGE=${DOCKER_IMAGE} \
 		-v $(DIR):/data \
 		dsuite/hub-updater
+
+build-version:
+	$(eval version := $(or $(v),$(latest)))
+	@docker run --rm \
+		-e http_proxy=${http_proxy} \
+		-e https_proxy=${https_proxy} \
+		-e SPIGOT_VERSION=$(version) \
+		-v $(DIR)/Dockerfiles:/data \
+		dsuite/alpine-data \
+		sh -c "templater Dockerfile.template > Dockerfile-$(version)"
+	@docker build \
+		--build-arg http_proxy=${http_proxy} \
+		--build-arg https_proxy=${https_proxy} \
+		--file $(DIR)/Dockerfiles/Dockerfile-$(version) \
+		--tag $(DOCKER_IMAGE):$(version) \
+		$(DIR)/Dockerfiles
+	@[ "$(version)" = "$(latest)" ] && docker tag $(DOCKER_IMAGE):$(version) $(DOCKER_IMAGE):latest || true
+
+test-version:
+	$(eval version := $(or $(v),$(latest)))
+	@$(MAKE) build-version v=$(version)
+	@docker run --rm -t \
+		-e http_proxy=${http_proxy} \
+		-e https_proxy=${https_proxy} \
+		-v $(DIR)/tests:/goss \
+		-v /tmp:/tmp \
+		-v /var/run/docker.sock:/var/run/docker.sock \
+		dsuite/goss:latest \
+		dgoss run --entrypoint=/goss/entrypoint.sh $(DOCKER_IMAGE):$(version)
+
+push-version:
+	$(eval version := $(or $(v),$(latest)))
+	@$(MAKE) build-version v=$(version)
+	@docker push $(DOCKER_IMAGE):$(version)
+	@[ "$(version)" = "$(latest)" ] && docker push $(DOCKER_IMAGE):latest || true
