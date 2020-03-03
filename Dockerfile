@@ -1,7 +1,7 @@
 FROM dsuite/maven:3.6-jdk8
 
 LABEL maintainer="Hexosse <hexosse@gmail.com>" \
-    org.opencontainers.image.title="docker-suite dsuite/spigot-builder:{{SPIGOT_VERSION}} image" \
+    org.opencontainers.image.title="docker-suite dsuite/spigot-builder:latest image" \
     org.opencontainers.image.description="A Spigot, craftbukkit image builder" \
     org.opencontainers.image.authors="Hexosse <hexosse@gmail.com>" \
     org.opencontainers.image.vendor="docker-suite" \
@@ -12,16 +12,19 @@ LABEL maintainer="Hexosse <hexosse@gmail.com>" \
     org.opencontainers.image.created="{{DOCKER_IMAGE_CREATED}}" \
     org.opencontainers.image.revision="{{DOCKER_IMAGE_REVISION}}"
 
-ENV SPIGOT_VERSION={{SPIGOT_VERSION}}
 ENV USER_NAME=${USER_NAME:-Hexosse}
 ENV USER_EMAIL=${USER_EMAIL:-hexosse@gmail.com}
 
 ## Scripts
-COPY spigot-build.sh $MAVEN_HOME_DIR/spigot-build.sh
-RUN sudo chmod +x $MAVEN_HOME_DIR/spigot-build.sh
+COPY rootfs /
+RUN sudo chmod +x /var/maven_home/spigot-build.sh
+
+## Working folder
+WORKDIR /var/maven_home
 
 ## Persist data
-VOLUME $MAVEN_HOME_DIR
+VOLUME [ "/var/maven_home/build", "/var/maven_home/target", "/var/maven_home/.m2" ]
 
-## Define entrypoint todirectly build spigot
-ENTRYPOINT [ "/bin/bash", "-c", "$MAVEN_HOME_DIR/spigot-build.sh {{SPIGOT_VERSION}}" ]
+## Define entrypoint to directly build spigot and craftbukkit
+ENTRYPOINT [ "/bin/bash", "-c", "/var/maven_home/spigot-build.sh" ]
+CMD ["latest"]
