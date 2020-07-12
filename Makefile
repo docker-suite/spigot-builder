@@ -18,6 +18,7 @@ build: ## Build
 	@docker build \
 		--build-arg http_proxy=${http_proxy} \
 		--build-arg https_proxy=${https_proxy} \
+		--build-arg no_proxy=${no_proxy} \
 		--file $(DIR)/Dockerfile \
 		--tag $(DOCKER_IMAGE):latest \
 		$(DIR)
@@ -43,6 +44,7 @@ readme: ## Generate docker hub full description
 	@docker run -it --rm \
 		-e http_proxy=${http_proxy} \
 		-e https_proxy=${https_proxy} \
+		-e no_proxy=${no_proxy} \
 		-e DOCKER_USERNAME=${DOCKER_USERNAME} \
 		-e DOCKER_PASSWORD=${DOCKER_PASSWORD} \
 		-e DOCKER_IMAGE=${DOCKER_IMAGE} \
