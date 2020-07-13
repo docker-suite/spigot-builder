@@ -1,4 +1,4 @@
-FROM dsuite/maven:3.6-jdk8
+FROM dsuite/maven:3.6-jdk-8
 
 LABEL maintainer="Hexosse <hexosse@gmail.com>" \
     org.opencontainers.image.title="docker-suite dsuite/spigot-builder:latest image" \
