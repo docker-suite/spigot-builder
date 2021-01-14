@@ -17,14 +17,14 @@ ENV USER_EMAIL=${USER_EMAIL:-hexosse@gmail.com}
 
 ## Scripts
 COPY rootfs /
-RUN sudo chmod +x /var/maven_home/spigot-build.sh
+RUN sudo chmod +x /var/spigot/spigot-build.sh
 
 ## Working folder
-WORKDIR /var/maven_home
+WORKDIR /var/spigot
 
 ## Persist data
-VOLUME [ "/var/maven_home/build", "/var/maven_home/target", "/var/maven_home/.m2" ]
+VOLUME [ "/var/spigot/build", "/var/spigot/target", "/root/.m2" ]
 
 ## Define entrypoint to directly build spigot and craftbukkit
-ENTRYPOINT [ "/bin/bash", "-c", "/var/maven_home/spigot-build.sh" ]
+ENTRYPOINT [ "/var/spigot/spigot-build.sh" ]
 CMD ["latest"]

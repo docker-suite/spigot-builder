@@ -30,10 +30,17 @@ push: ## Push
 shell: ## Run shell
 	@mkdir -p $(DIR)/tmp/target
 	@docker run -it --rm \
-		-v $(M2_REPO):/var/maven_home/.m2 \
-		-v $(DIR)/tmp/target:/var/maven_home/target \
+		-v $(M2_REPO):/root/.m2 \
+		-v $(DIR)/tmp/target:/var/spigot/target \
 		--entrypoint /bin/bash \
 		$(DOCKER_IMAGE):latest
+
+run:
+	@mkdir -p $(DIR)/tmp/target
+	@docker run -t --rm \
+		-v $(M2_REPO):/root/.m2 \
+		-v $(DIR)/tmp/target:/var/spigot/target \
+		$(DOCKER_IMAGE):latest 
 
 remove: ## Remove all generated images
 	@docker images | grep $(DOCKER_IMAGE) | tr -s ' ' | cut -d ' ' -f 2 | xargs -I {} docker rmi $(DOCKER_IMAGE):{} || true

@@ -1,18 +1,22 @@
 #!/usr/bin/env bash
 
+# Version to build
+if [ -z "$1" ]; then
+    VERSION="latest"
+else
+    VERSION="$1"
+fi
+
 # set -e : Exit the script if any statement returns a non-true return value.
 # set -u : Exit the script when using uninitialised variable.
 set -eu
 
-# Version to build
-VERSION=$1
-
 # Folder where spigot will be built
-MAVEN_BUILD_DIR=/var/maven_home/build/$VERSION
+MAVEN_BUILD_DIR=/var/spigot/build/$VERSION
 # Folder where artifacts will be copyed at the end of the process
-MAVEN_TARGET_DIR=/var/maven_home/target
+MAVEN_TARGET_DIR=/var/spigot/target
 # Declare M2_HOME as BuildTools is looking for it
-export M2_HOME=/var/maven_home/.m2
+export M2_HOME=$MAVEN_HOME
 
 
 

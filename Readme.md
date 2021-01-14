@@ -9,18 +9,17 @@
 A [spigot][spigot] builder image.
 
 ## ![](https://github.com/docker-suite/artwork/raw/master/various/pin/png/pin_16.png) Volumes
-- /var/maven_home
-    - /var/maven_home/.m2
-    - /var/maven_home/build
-    - /var/maven_home/target
+- /root/.m2
+- /var/spigot/build
+- /var/spigot/target
 
 ## ![](https://github.com/docker-suite/artwork/raw/master/various/pin/png/pin_16.png) How to use this image
 
 ```bash
 @docker run -t --rm \
-    -v $PWD/.tmp/.m2:/var/maven_home/.m2 \
-    -v $PWD/.tmp/target:/var/maven_home/target \
-    dsuite/spigot-build $(SPIGOT_VERSION)
+    -v $PWD/.tmp/.m2:/root/.m2 \
+    -v $PWD/.tmp/target:/var/spigot/target \
+    dsuite/spigot-builder $(SPIGOT_VERSION)
 ```
 
 
