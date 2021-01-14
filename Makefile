@@ -18,7 +18,7 @@ build: ## Build
 	@docker build \
 		--build-arg http_proxy=${http_proxy} \
 		--build-arg https_proxy=${https_proxy} \
-		--build-arg no_proxy=${no_proxy} \
+		--build-arg no_proxy="${no_proxy}" \
 		--file $(DIR)/Dockerfile \
 		--tag $(DOCKER_IMAGE):latest \
 		$(DIR)
@@ -29,7 +29,6 @@ push: ## Push
 
 shell: ## Run shell
 	@mkdir -p $(DIR)/tmp/target
-	@$(MAKE) build
 	@docker run -it --rm \
 		-v $(M2_REPO):/var/maven_home/.m2 \
 		-v $(DIR)/tmp/target:/var/maven_home/target \
@@ -44,7 +43,7 @@ readme: ## Generate docker hub full description
 	@docker run -it --rm \
 		-e http_proxy=${http_proxy} \
 		-e https_proxy=${https_proxy} \
-		-e no_proxy=${no_proxy} \
+		-e no_proxy="${no_proxy}" \
 		-e DOCKER_USERNAME=${DOCKER_USERNAME} \
 		-e DOCKER_PASSWORD=${DOCKER_PASSWORD} \
 		-e DOCKER_IMAGE=${DOCKER_IMAGE} \

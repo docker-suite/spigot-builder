@@ -12,7 +12,7 @@ MAVEN_BUILD_DIR=/var/maven_home/build/$VERSION
 # Folder where artifacts will be copyed at the end of the process
 MAVEN_TARGET_DIR=/var/maven_home/target
 # Declare M2_HOME as BuildTools is looking for it
-export M2_HOME=$MAVEN_HOME
+export M2_HOME=/var/maven_home/.m2
 
 
 
