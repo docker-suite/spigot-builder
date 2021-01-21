@@ -86,23 +86,23 @@ prepare::folders() {
     # Remove all data from the build folder
     [ -d "$MAVEN_BUILD_DIR" ] && (cd "${MAVEN_BUILD_DIR}" && rm -rf ./*)
     # Make sure the build folder is empty
-    sudo mkdir -p "$MAVEN_BUILD_DIR"
+    mkdir -p "$MAVEN_BUILD_DIR"
     # Make sure the target folder exist
-    sudo mkdir -p "$MAVEN_TARGET_DIR"
+    mkdir -p "$MAVEN_TARGET_DIR"
 }
 
 # Adjust git configuration
 prepare::git() {
-    sudo -E git config --global user.name $USER_NAME
-    sudo -E git config --global user.email $USER_EMAIL
-    sudo git config --global core.autocrlf false
-    sudo git config --global http.sslVerify false
+    git config --global user.name $USER_NAME
+    git config --global user.email $USER_EMAIL
+    git config --global core.autocrlf false
+    git config --global http.sslVerify false
 }
 
 # Download BuildTools
 download::BuildTools() {
     echo "Downloading the latest version of BuildTools.jar ..."
-    sudo curl -o "$MAVEN_BUILD_DIR/BuildTools.jar" https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
+    curl -o "$MAVEN_BUILD_DIR/BuildTools.jar" https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
 }
 
 build() {
@@ -111,7 +111,7 @@ build() {
     # go to the build folder
     cd "$MAVEN_BUILD_DIR" || exit 1
     # Build
-    sudo -E java -jar BuildTools.jar --disable-java-check --compile craftbukkit,spigot --output-dir $MAVEN_TARGET_DIR --rev $VERSION
+    java -jar BuildTools.jar --disable-java-check --compile craftbukkit,spigot --output-dir $MAVEN_TARGET_DIR --rev $VERSION
 }
 
 check::version

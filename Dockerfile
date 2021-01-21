@@ -17,7 +17,7 @@ ENV USER_EMAIL=${USER_EMAIL:-hexosse@gmail.com}
 
 ## Scripts
 COPY rootfs /
-RUN sudo chmod +x /var/spigot/spigot-build.sh
+RUN chmod +x /var/spigot/spigot-build.sh
 
 ## Working folder
 WORKDIR /var/spigot
