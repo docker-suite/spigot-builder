@@ -39,13 +39,13 @@ build: ## Build
 	@[ "$(name)" = "$(image_name)" ] && docker tag $(DOCKER_IMAGE):$(name) $(DOCKER_IMAGE):latest || true
 
 push-all: ## Build all supported versions
-	@$(MAKE) push	$(DOCKER_IMAGE):8
-	@$(MAKE) push	$(DOCKER_IMAGE):16
-	@$(MAKE) push	$(DOCKER_IMAGE):latest
+	@$(MAKE) push n=8
+	@$(MAKE) push n=16
+	@$(MAKE) push n=latest
 
 push: ## Push
-	@$(MAKE) build
-	@docker push $(DOCKER_IMAGE):latest
+	$(eval name := $(or $(n),$(name),$(image_name)))
+	@docker push $(DOCKER_IMAGE):$(name)
 
 shell: ## Run shell
 	@mkdir -p $(DIR)/tmp/target
