@@ -24,15 +24,16 @@ export M2_HOME=$MAVEN_HOME
 check::version() {
     # Array of supported versions
     declare -a supported_versions=(
-            "1.8" "1.8.3" "1.8.7" "1.8.8"
+            "1.8" "1.8.3" "1.8.8"
             "1.9" "1.9.2" "1.9.4"
-            "1.10"
-            "1.11"
+            "1.10.2"
+            "1.11" "1.11.1" "1.11.2"
             "1.12" "1.12.1" "1.12.2"
             "1.13" "1.13.1" "1.13.2"
             "1.14" "1.14.1" "1.14.2" "1.14.3" "1.14.4"
             "1.15" "1.15.1" "1.15.2"
-            "1.16.1" "1.16.2" "1.16.3" "1.16.4"
+            "1.16.1" "1.16.2" "1.16.3" "1.16.4" "1.16.5"
+            "1.17" "1.17.1"
             "latest")
     declare -A supported_versions_map
     for key in "${!supported_versions[@]}"; do supported_versions_map[${supported_versions[$key]}]="$key"; done
@@ -41,7 +42,7 @@ check::version() {
     if [[ -n "${supported_versions_map[$VERSION]}" ]]; then
         return 0
     else
-        echo "This version ($VERSION) of Spifog is not supported"
+        echo "This version ($VERSION) of Spigot is not supported"
         return 1;
     fi
 }
@@ -111,7 +112,7 @@ build() {
     # go to the build folder
     cd "$MAVEN_BUILD_DIR" || exit 1
     # Build
-    java -jar BuildTools.jar --disable-java-check --compile craftbukkit,spigot --output-dir $MAVEN_TARGET_DIR --rev $VERSION
+    java -jar BuildTools.jar --disable-java-check --generate-source --compile craftbukkit,spigot --output-dir $MAVEN_TARGET_DIR --rev $VERSION
 }
 
 check::version

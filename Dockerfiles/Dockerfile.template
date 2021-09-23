@@ -1,4 +1,4 @@
-FROM dsuite/maven:3.6-jdk-8
+FROM {{BASE_IMAGE}}
 
 LABEL maintainer="Hexosse <hexosse@gmail.com>" \
     org.opencontainers.image.title="docker-suite dsuite/spigot-builder:latest image" \
@@ -21,9 +21,6 @@ RUN chmod +x /var/spigot/spigot-build.sh
 
 ## Working folder
 WORKDIR /var/spigot
-
-## Persist data
-VOLUME [ "/var/spigot/build", "/var/spigot/target", "/root/.m2" ]
 
 ## Define entrypoint to directly build spigot and craftbukkit
 ENTRYPOINT [ "/var/spigot/spigot-build.sh" ]
