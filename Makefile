@@ -48,22 +48,22 @@ push: ## Push
 	@docker push $(DOCKER_IMAGE):$(name)
 
 shell: ## Run shell
-	@mkdir -p $(DIR)/tmp/target
+	@mkdir -p $(DIR)/.tmp/target
 	@docker run -it --rm \
 		-v $(M2_REPO):/root/.m2 \
 		-v spigot_build:/var/spigot/build \
-		-v $(DIR)/tmp/target:/var/spigot/target \
+		-v $(DIR)/.tmp/target:/var/spigot/target \
 		--entrypoint /bin/bash \
 		$(DOCKER_IMAGE):latest
 
 spigot-build:
 	$(eval image_version := $(or $(i),$(image)))
 	$(eval spigot_version := $(or $(v),$(version)))
-	@mkdir -p $(DIR)/tmp/target
+	@mkdir -p $(DIR)/.tmp/target
 	@docker run -it --rm \
 		-v $(M2_REPO):/root/.m2 \
 		-v spigot_build:/var/spigot/build \
-		-v $(DIR)/tmp/target:/var/spigot/target \
+		-v $(DIR)/.tmp/target:/var/spigot/target \
 		$(DOCKER_IMAGE):$(image_version) \
 		$(spigot_version)
 
